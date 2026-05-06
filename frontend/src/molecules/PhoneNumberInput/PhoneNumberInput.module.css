@@ -1,0 +1,49 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  width: 100%;
+}
+
+.status {
+  min-height: 1.5rem;
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-normal);
+  color: var(--color-fg-subtle);
+}
+
+.looking {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.resolved {
+  color: var(--color-fg);
+  font-weight: var(--font-weight-medium);
+}
+
+.notFound {
+  color: var(--color-fg-subtle);
+}
+
+.registerLink {
+  display: inline;
+  padding: 0;
+  border: none;
+  background: transparent;
+  color: var(--color-primary);
+  font: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.registerLink:hover {
+  color: var(--color-primary-hover);
+}
+
+.registerLink:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+  border-radius: var(--radius-sm);
+}

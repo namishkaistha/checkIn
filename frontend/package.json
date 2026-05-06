@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "i18next": "^23.16.8",
+    "libphonenumber-js": "^1.12.42",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
     "react-i18next": "^15.7.4",
@@ -31,6 +32,7 @@
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.1.0",
     "@testing-library/user-event": "^14.5.2",
+    "@types/jest-axe": "^3.5.9",
     "@types/node": "^22.10.5",
     "@types/react": "^19.0.7",
     "@types/react-dom": "^19.0.3",
@@ -38,7 +40,6 @@
     "@vitest/coverage-v8": "^2.1.8",
     "axe-core": "^4.10.2",
     "jest-axe": "^9.0.0",
-    "@types/jest-axe": "^3.5.9",
     "jsdom": "^26.0.0",
     "storybook": "^8.6.18",
     "typescript": "~5.7.2",

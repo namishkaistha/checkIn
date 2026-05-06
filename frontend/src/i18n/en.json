@@ -16,6 +16,23 @@
       "requiredSr": "required"
     }
   },
+  "molecules": {
+    "phoneNumberInput": {
+      "notRegistered": "Not registered yet",
+      "registerLink": "Register this person now",
+      "looking": "Looking up…"
+    },
+    "bagCount": {
+      "label_one": "{{count}} bag",
+      "label_other": "{{count}} bags"
+    },
+    "personRow": {
+      "blockedBadge": "Recent check-in"
+    },
+    "errorBanner": {
+      "dismiss": "Dismiss"
+    }
+  },
   "app": {
     "title": "Pantry Check-In",
     "home": "Home"

@@ -16,6 +16,23 @@
       "requiredSr": "obligatorio"
     }
   },
+  "molecules": {
+    "phoneNumberInput": {
+      "notRegistered": "Aún no registrado",
+      "registerLink": "Registrar a esta persona ahora",
+      "looking": "Buscando…"
+    },
+    "bagCount": {
+      "label_one": "{{count}} bolsa",
+      "label_other": "{{count}} bolsas"
+    },
+    "personRow": {
+      "blockedBadge": "Registro reciente"
+    },
+    "errorBanner": {
+      "dismiss": "Cerrar"
+    }
+  },
   "app": {
     "title": "Registro de Despensa",
     "home": "Inicio"
