@@ -1,0 +1,30 @@
+{
+  "atoms": {
+    "languageToggle": {
+      "groupLabel": "Language",
+      "english": "English",
+      "spanish": "Español"
+    },
+    "spinner": {
+      "loading": "Loading"
+    },
+    "longPress": {
+      "hint": "Hold to activate",
+      "holding": "Holding…"
+    },
+    "label": {
+      "requiredSr": "required"
+    }
+  },
+  "app": {
+    "title": "Pantry Check-In",
+    "home": "Home"
+  },
+  "pages": {
+    "landing": "Landing",
+    "checkIn": "Check In",
+    "register": "Register",
+    "confirmation": "Confirmation",
+    "approved": "Approved"
+  }
+}

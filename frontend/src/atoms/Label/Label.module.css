@@ -1,0 +1,15 @@
+.label {
+  display: inline-block;
+  font-family: var(--font-family);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-tight);
+  color: var(--color-fg);
+  margin-bottom: var(--space-2);
+}
+
+.requiredMark {
+  margin-left: var(--space-1);
+  color: var(--color-danger);
+  /* aria-hidden so SR doesn't double-announce. */
+}

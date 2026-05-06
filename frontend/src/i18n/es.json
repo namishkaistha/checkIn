@@ -1,0 +1,30 @@
+{
+  "atoms": {
+    "languageToggle": {
+      "groupLabel": "Idioma",
+      "english": "English",
+      "spanish": "Español"
+    },
+    "spinner": {
+      "loading": "Cargando"
+    },
+    "longPress": {
+      "hint": "Mantén presionado para activar",
+      "holding": "Manteniendo…"
+    },
+    "label": {
+      "requiredSr": "obligatorio"
+    }
+  },
+  "app": {
+    "title": "Registro de Despensa",
+    "home": "Inicio"
+  },
+  "pages": {
+    "landing": "Inicio",
+    "checkIn": "Registrarse",
+    "register": "Crear cuenta",
+    "confirmation": "Confirmación",
+    "approved": "Aprobado"
+  }
+}
