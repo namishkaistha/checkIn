@@ -8,6 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 # create_all calls happen (e.g. in tests).
 from app import models  # noqa: F401
 from app.routes import users as users_routes
+from app.routes.check_ins import router as check_ins_router
 
 app = FastAPI(title="Pantry Check-In API")
 
@@ -20,6 +21,7 @@ app.add_middleware(
 )
 
 app.include_router(users_routes.router)
+app.include_router(check_ins_router)
 
 
 @app.get("/health", tags=["health"])
