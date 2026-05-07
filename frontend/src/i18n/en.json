@@ -35,13 +35,54 @@
   },
   "app": {
     "title": "Pantry Check-In",
-    "home": "Home"
+    "home": "Home",
+    "langChange": "Language changed to {{lang}}"
   },
   "pages": {
-    "landing": "Landing",
-    "checkIn": "Check In",
-    "register": "Register",
-    "confirmation": "Confirmation",
-    "approved": "Approved"
+    "landing": {
+      "heading": "Pantry Check-In",
+      "checkInButton": "Check In",
+      "registerButton": "Register a new person"
+    },
+    "checkIn": {
+      "heading": "Check in",
+      "recipientLabel": "Your phone number",
+      "additionalLabel": "Person {{n}} phone number",
+      "addAnother": "Add another person",
+      "remove": "Remove",
+      "removeWithIndex": "Remove person {{n}}",
+      "submit": "Continue",
+      "errorUserNotRegistered": "User not registered: {{phone}}",
+      "modalHeading": "Register a new person",
+      "modalDismiss": "Close registration"
+    },
+    "register": {
+      "heading": "Register a new person",
+      "fullNameLabel": "Full name",
+      "phoneLabel": "Phone number",
+      "submit": "Register",
+      "success": "Registered. Returning home…",
+      "errorDuplicate": "Phone already registered",
+      "cancel": "Cancel"
+    },
+    "confirmation": {
+      "heading": "Confirm check-in",
+      "holdToApprove": "Volunteer: hold to approve",
+      "blockedHeading": "One or more people checked in recently",
+      "blockedExplanation": "One or more people checked in within the last 7 days",
+      "approveAnyway": "Approve anyway"
+    },
+    "approved": {
+      "heading": "Checked in",
+      "done": "Done",
+      "autoReset": "Returning home in {{seconds}}…",
+      "checkmarkLabel": "Approved"
+    }
+  },
+  "common": {
+    "loading": "Loading…",
+    "error": "Something went wrong",
+    "tryAgain": "Try again",
+    "goHome": "Go home"
   }
 }

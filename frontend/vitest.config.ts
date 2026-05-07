@@ -3,6 +3,11 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
+  define: {
+    // Mirror vite.config.ts so components that read this constant don't
+    // explode under jsdom.
+    __APP_VERSION__: JSON.stringify('test'),
+  },
   test: {
     globals: true,
     environment: 'jsdom',

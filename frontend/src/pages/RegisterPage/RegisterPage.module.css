@@ -1,0 +1,8 @@
+.success {
+  margin: 0;
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-success);
+  color: var(--color-success-fg);
+  border-radius: var(--radius-md);
+  font-weight: var(--font-weight-medium);
+}

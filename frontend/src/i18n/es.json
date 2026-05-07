@@ -35,13 +35,54 @@
   },
   "app": {
     "title": "Registro de Despensa",
-    "home": "Inicio"
+    "home": "Inicio",
+    "langChange": "Idioma cambiado a {{lang}}"
   },
   "pages": {
-    "landing": "Inicio",
-    "checkIn": "Registrarse",
-    "register": "Crear cuenta",
-    "confirmation": "Confirmación",
-    "approved": "Aprobado"
+    "landing": {
+      "heading": "Registro de Despensa",
+      "checkInButton": "Registrarse",
+      "registerButton": "Registrar a una nueva persona"
+    },
+    "checkIn": {
+      "heading": "Registrarse",
+      "recipientLabel": "Tu número de teléfono",
+      "additionalLabel": "Teléfono de la persona {{n}}",
+      "addAnother": "Agregar otra persona",
+      "remove": "Quitar",
+      "removeWithIndex": "Quitar a la persona {{n}}",
+      "submit": "Continuar",
+      "errorUserNotRegistered": "Usuario no registrado: {{phone}}",
+      "modalHeading": "Registrar a una nueva persona",
+      "modalDismiss": "Cerrar registro"
+    },
+    "register": {
+      "heading": "Registrar a una nueva persona",
+      "fullNameLabel": "Nombre completo",
+      "phoneLabel": "Número de teléfono",
+      "submit": "Registrar",
+      "success": "Registrado. Volviendo al inicio…",
+      "errorDuplicate": "El teléfono ya está registrado",
+      "cancel": "Cancelar"
+    },
+    "confirmation": {
+      "heading": "Confirmar registro",
+      "holdToApprove": "Voluntario: mantén presionado para aprobar",
+      "blockedHeading": "Una o más personas se registraron recientemente",
+      "blockedExplanation": "Una o más personas se registraron en los últimos 7 días",
+      "approveAnyway": "Aprobar de todos modos"
+    },
+    "approved": {
+      "heading": "Registrado",
+      "done": "Listo",
+      "autoReset": "Volviendo al inicio en {{seconds}}…",
+      "checkmarkLabel": "Aprobado"
+    }
+  },
+  "common": {
+    "loading": "Cargando…",
+    "error": "Algo salió mal",
+    "tryAgain": "Intentar de nuevo",
+    "goHome": "Ir al inicio"
   }
 }

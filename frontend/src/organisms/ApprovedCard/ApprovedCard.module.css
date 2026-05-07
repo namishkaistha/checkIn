@@ -1,0 +1,30 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-5);
+  padding: var(--space-6) var(--space-4);
+  width: 100%;
+}
+
+.checkmark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.heading {
+  margin: 0;
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-success);
+  line-height: var(--line-height-tight);
+  text-align: center;
+}
+
+.timer {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  color: var(--color-fg-subtle);
+  text-align: center;
+}
