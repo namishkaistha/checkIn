@@ -57,6 +57,34 @@
       "body_other": "You are all set for {{count}} bags today",
       "nextStepsTitle": "Next steps",
       "nextStepsBody": "Please proceed to the pickup area. A volunteer will assist you shortly."
+    },
+    "primaryPhoneEntry": {
+      "phoneLabel": "Your phone number",
+      "notice": "We use your phone number to find your record.",
+      "registerLink": "Register this person",
+      "continueLabel": "Continue",
+      "continueSubLabel": "Continuar"
+    },
+    "householdMembers": {
+      "primaryHeading": "Picking up for",
+      "additionalHeading": "Also picking up for",
+      "addAnotherLabel": "Add another person",
+      "addAnotherSubLabel": "Agregar otra persona",
+      "addPlaceholder": "Phone number",
+      "addConfirmLabel": "Add to list",
+      "addCancelLabel": "Cancel",
+      "removeLabel": "Remove",
+      "removeSrLabel": "Remove {{name}}",
+      "registerLink": "Register a new person",
+      "duplicatePrimary": "This person is already on the list.",
+      "continueLabel": "Continue to Items",
+      "continueSubLabel": "Continuar a los artículos"
+    },
+    "checkInSummary": {
+      "recipientsHeading": "Household Members",
+      "handToVolunteer": "Please show this screen to a volunteer.",
+      "readyLabel": "I am ready",
+      "readySubLabel": "Estoy listo"
     }
   },
   "app": {

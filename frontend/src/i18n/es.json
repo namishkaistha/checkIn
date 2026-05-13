@@ -57,6 +57,34 @@
       "body_other": "Estás listo para {{count}} bolsas hoy",
       "nextStepsTitle": "Próximos pasos",
       "nextStepsBody": "Por favor dirígete al área de recogida. Un voluntario te asistirá en breve."
+    },
+    "primaryPhoneEntry": {
+      "phoneLabel": "Su número de teléfono",
+      "notice": "Usamos su número de teléfono para buscar su registro.",
+      "registerLink": "Registrar a esta persona",
+      "continueLabel": "Continue",
+      "continueSubLabel": "Continuar"
+    },
+    "householdMembers": {
+      "primaryHeading": "Recogiendo para",
+      "additionalHeading": "También recoge para",
+      "addAnotherLabel": "Add another person",
+      "addAnotherSubLabel": "Agregar otra persona",
+      "addPlaceholder": "Número de teléfono",
+      "addConfirmLabel": "Agregar a la lista",
+      "addCancelLabel": "Cancelar",
+      "removeLabel": "Quitar",
+      "removeSrLabel": "Quitar a {{name}}",
+      "registerLink": "Registrar a una nueva persona",
+      "duplicatePrimary": "Esta persona ya está en la lista.",
+      "continueLabel": "Continue to Items",
+      "continueSubLabel": "Continuar a los artículos"
+    },
+    "checkInSummary": {
+      "recipientsHeading": "Miembros del hogar",
+      "handToVolunteer": "Por favor, muestre esta pantalla a un voluntario.",
+      "readyLabel": "I am ready",
+      "readySubLabel": "Estoy listo"
     }
   },
   "app": {

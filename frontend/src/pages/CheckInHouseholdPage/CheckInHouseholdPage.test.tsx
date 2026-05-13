@@ -1,7 +1,7 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { useEffect } from 'react';
 import { MemoryRouter, Route, Routes, useLocation } from 'react-router-dom';
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { axe } from 'jest-axe';
 import { CheckInHouseholdPage } from './CheckInHouseholdPage';
@@ -10,6 +10,24 @@ import {
   useCheckInSession,
 } from '../../state/CheckInSessionContext';
 import type { User } from '../../api/types';
+
+function jsonResponse(status: number, body: unknown): Response {
+  return new Response(JSON.stringify(body), {
+    status,
+    headers: { 'Content-Type': 'application/json' },
+  });
+}
+
+const fetchMock = vi.fn();
+
+beforeEach(() => {
+  fetchMock.mockReset();
+  vi.stubGlobal('fetch', fetchMock);
+});
+
+afterEach(() => {
+  vi.unstubAllGlobals();
+});
 
 const PRIMARY: User = {
   id: 'p1',
@@ -20,14 +38,13 @@ const PRIMARY: User = {
 
 function PathProbe() {
   const location = useLocation();
-  return <div data-testid="path">{location.pathname}</div>;
+  return <div data-testid="path">{location.pathname + location.search}</div>;
 }
 
 /**
- * Helper that primes the wizard context with a primary user before
- * rendering children. We do it in an effect so the state update happens
- * within React's flow and the consumer re-renders with the populated
- * value.
+ * Prime the wizard context with a primary user before rendering the
+ * children. The state update happens inside an effect so the consumer
+ * re-renders with the populated value.
  */
 function PrimeSession({
   user,
@@ -73,6 +90,15 @@ function renderWithSession(initialPath: string, primed: boolean) {
                   </>
                 }
               />
+              <Route
+                path="/register"
+                element={
+                  <>
+                    <div data-testid="register">REGISTER</div>
+                    <PathProbe />
+                  </>
+                }
+              />
             </Routes>
           </PrimeSession>
         ) : (
@@ -86,15 +112,6 @@ function renderWithSession(initialPath: string, primed: boolean) {
               element={
                 <>
                   <div data-testid="phone">PHONE</div>
-                  <PathProbe />
-                </>
-              }
-            />
-            <Route
-              path="/check-in/summary/:batchId"
-              element={
-                <>
-                  <div data-testid="summary">SUMMARY</div>
                   <PathProbe />
                 </>
               }
@@ -113,10 +130,9 @@ describe('CheckInHouseholdPage', () => {
     expect(screen.getByTestId('path')).toHaveTextContent('/check-in/phone');
   });
 
-  it('skips the redirect when ?dev=1 is present, even without a primary user', () => {
+  it('redirects to /check-in/phone even with ?dev=1 (escape hatch removed)', () => {
     renderWithSession('/check-in/household?dev=1', false);
-    expect(screen.queryByTestId('phone')).not.toBeInTheDocument();
-    expect(screen.getByRole('status')).toHaveTextContent('Step 2 of 4');
+    expect(screen.getByTestId('phone')).toBeInTheDocument();
   });
 
   it('renders with primary user in session and shows step 2 header', () => {
@@ -125,14 +141,61 @@ describe('CheckInHouseholdPage', () => {
     expect(screen.getByRole('status')).toHaveTextContent('Paso 2 de 4');
   });
 
-  it('navigates to /check-in/summary/PLACEHOLDER on Continue', async () => {
+  it('navigates to /check-in/summary/:batchId after a successful createBatch', async () => {
+    fetchMock.mockResolvedValue(
+      jsonResponse(201, {
+        batch_id: 'b-123',
+        rows: [
+          {
+            user: PRIMARY,
+            blocked: false,
+            last_check_in_at: null,
+          },
+        ],
+        any_blocked: false,
+      }),
+    );
     const user = userEvent.setup();
     renderWithSession('/check-in/household', true);
-    await user.click(screen.getByRole('button', { name: /Continue/i }));
-    expect(screen.getByTestId('summary')).toBeInTheDocument();
-    expect(screen.getByTestId('path')).toHaveTextContent(
-      '/check-in/summary/PLACEHOLDER',
+
+    await user.click(
+      screen.getByRole('button', { name: /Continue to Items/i }),
     );
+
+    await waitFor(() => {
+      expect(screen.getByTestId('summary')).toBeInTheDocument();
+    });
+    expect(screen.getByTestId('path')).toHaveTextContent(
+      '/check-in/summary/b-123',
+    );
+  });
+
+  it('shows an ErrorBanner when createBatch fails', async () => {
+    fetchMock.mockResolvedValue(
+      jsonResponse(500, { detail: 'kapow' }),
+    );
+    const user = userEvent.setup();
+    renderWithSession('/check-in/household', true);
+
+    await user.click(
+      screen.getByRole('button', { name: /Continue to Items/i }),
+    );
+
+    await waitFor(() => {
+      expect(screen.getAllByRole('alert').length).toBeGreaterThan(0);
+    });
+  });
+
+  it('navigates to /register with the typed phone when the inline register link is clicked', async () => {
+    const user = userEvent.setup();
+    renderWithSession('/check-in/household', true);
+
+    await user.click(
+      screen.getByRole('button', { name: /Register a new person/i }),
+    );
+    expect(screen.getByTestId('register')).toBeInTheDocument();
+    // Standalone link is unscoped so the path is bare.
+    expect(screen.getByTestId('path').textContent).toMatch(/^\/register$/);
   });
 
   it('has no a11y violations with a primary user', async () => {

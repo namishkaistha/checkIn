@@ -1,0 +1,55 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-stack-gap, var(--space-4));
+  width: 100%;
+}
+
+.sectionHeading {
+  margin: 0;
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3, 0.75rem);
+}
+
+.listItem {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2, 0.5rem);
+  align-items: stretch;
+}
+
+.removeRow {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.addPanel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3, 0.75rem);
+}
+
+.addActions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2, 0.5rem);
+}
+
+@media (min-width: 640px) {
+  .addActions {
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+}
+
+.registerRow {
+  display: flex;
+  justify-content: flex-start;
+}

@@ -1,36 +1,48 @@
-import { Navigate, useNavigate, useSearchParams } from 'react-router-dom';
-import { Button } from '../../atoms/Button/Button';
-import { Card } from '../../atoms/Card/Card';
-import { BilingualText } from '../../molecules/BilingualText/BilingualText';
-import { PrimaryActionBar } from '../../molecules/PrimaryActionBar/PrimaryActionBar';
+import { useState } from 'react';
+import { Navigate, useNavigate } from 'react-router-dom';
+import { createBatch } from '../../api/checkIns';
+import { ErrorBanner } from '../../molecules/ErrorBanner/ErrorBanner';
 import { WizardStepHeader } from '../../molecules/WizardStepHeader/WizardStepHeader';
+import { HouseholdMembers } from '../../organisms/HouseholdMembers/HouseholdMembers';
 import { useCheckInSession } from '../../state/CheckInSessionContext';
 import { PageLayout } from '../../templates/PageLayout/PageLayout';
 import styles from './CheckInHouseholdPage.module.css';
 
 /**
- * Wizard step 2/4 — household members.
- *
- * M6d ships this as a placeholder. The route guard already bounces users
- * back to the phone step if they reach this page without a primary user
- * in session; the `?dev=1` query string is a temporary escape hatch so
- * the page can be opened in isolation while M6e is still being wired up.
+ * Wizard step 2/4 — household members. Guards on the session: without a
+ * primary user, redirect to the phone step. On continue, calls
+ * `POST /check-ins` with the primary + additional phones, then navigates
+ * to the summary step with the returned `batch_id`. Errors surface as an
+ * inline `ErrorBanner` above the organism — the volunteer can retry
+ * without losing the household list.
  */
 export function CheckInHouseholdPage() {
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-  const { primaryUser } = useCheckInSession();
+  const { primaryUser, additionalUsers } = useCheckInSession();
+  const [error, setError] = useState<string | null>(null);
 
-  // M6e: remove dev escape — guard is real when phone page wires setPrimary
-  const devEscape = searchParams.get('dev') === '1';
-
-  if (!devEscape && primaryUser === null) {
+  if (primaryUser === null) {
     return <Navigate to="/check-in/phone" replace />;
   }
 
-  const handleContinue = () => {
-    // M6e: replace PLACEHOLDER with batch id from createBatch
-    navigate('/check-in/summary/PLACEHOLDER');
+  const handleContinue = async () => {
+    setError(null);
+    try {
+      const batch = await createBatch({
+        pickedUpByPhone: primaryUser.phone_number,
+        alsoForPhones: additionalUsers.map((u) => u.phone_number),
+      });
+      navigate(`/check-in/summary/${batch.batch_id}`);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : String(err));
+      // Re-throw so HouseholdMembers can drop its in-flight loading state.
+      throw err;
+    }
+  };
+
+  const handleRegisterRequest = (phone: string) => {
+    const query = phone === '' ? '' : `?phone=${encodeURIComponent(phone)}`;
+    navigate(`/register${query}`);
   };
 
   return (
@@ -42,14 +54,11 @@ export function CheckInHouseholdPage() {
           titleKey="wizard.shared.title.household"
           subtitleKey="wizard.shared.subtitle.household"
         />
-        <Card tone="default" padding="lg">
-          <BilingualText tKey="wizard.shared.placeholderBody" variant="body-md" />
-        </Card>
-        <PrimaryActionBar>
-          <Button fullWidth onClick={handleContinue} subLabel="Continuar">
-            Continue
-          </Button>
-        </PrimaryActionBar>
+        {error !== null ? <ErrorBanner message={error} /> : null}
+        <HouseholdMembers
+          onContinue={handleContinue}
+          onRegisterRequest={handleRegisterRequest}
+        />
       </div>
     </PageLayout>
   );

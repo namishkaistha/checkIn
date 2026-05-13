@@ -112,10 +112,13 @@ describe('CheckInSessionProvider mounting', () => {
   });
 
   it('hook does not throw when rendered under /check-in/* in App', () => {
-    // Navigate to the household page with ?dev=1 so the route guard
-    // doesn't redirect — the page itself calls useCheckInSession during
-    // render, which would throw if the provider weren't mounted.
-    renderAt('/check-in/household?dev=1');
-    expect(screen.getByRole('status')).toHaveTextContent('Step 2 of 4');
+    // Navigating to the household page without a primary user redirects
+    // back to the phone step. The household page calls useCheckInSession
+    // during render — if the provider weren't mounted, the redirect path
+    // would never be reached because the hook would throw first. Landing
+    // on the phone step proves the provider is wired and the hook
+    // returned its empty value.
+    renderAt('/check-in/household');
+    expect(screen.getByRole('status')).toHaveTextContent('Step 1 of 4');
   });
 });

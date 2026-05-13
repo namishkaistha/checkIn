@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { ApiError, createUser } from '../../api';
 import { ErrorBanner } from '../../molecules/ErrorBanner/ErrorBanner';
 import { RegistrationForm } from '../../organisms/RegistrationForm/RegistrationForm';
@@ -12,6 +12,10 @@ const RETURN_DELAY_MS = 1000;
 export function RegisterPage() {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  // Pre-fill the phone field when the user arrived from a check-in step's
+  // "Register this person" link (mid-wizard registration).
+  const [searchParams] = useSearchParams();
+  const initialPhone = searchParams.get('phone') ?? undefined;
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const timerRef = useRef<number | null>(null);
@@ -52,7 +56,10 @@ export function RegisterPage() {
         </p>
       ) : null}
       {error !== null ? <ErrorBanner message={error} /> : null}
-      <RegistrationForm onSubmit={handleSubmit} />
+      <RegistrationForm
+        onSubmit={handleSubmit}
+        {...(initialPhone !== undefined ? { initialPhone } : {})}
+      />
     </PageLayout>
   );
 }

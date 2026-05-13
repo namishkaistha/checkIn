@@ -1,25 +1,29 @@
 import { useNavigate } from 'react-router-dom';
-import { Button } from '../../atoms/Button/Button';
-import { Card } from '../../atoms/Card/Card';
-import { BilingualText } from '../../molecules/BilingualText/BilingualText';
-import { PrimaryActionBar } from '../../molecules/PrimaryActionBar/PrimaryActionBar';
 import { WizardStepHeader } from '../../molecules/WizardStepHeader/WizardStepHeader';
+import { PrimaryPhoneEntry } from '../../organisms/PrimaryPhoneEntry/PrimaryPhoneEntry';
+import { useCheckInSession } from '../../state/CheckInSessionContext';
 import { PageLayout } from '../../templates/PageLayout/PageLayout';
+import type { User } from '../../api/types';
 import styles from './CheckInPhonePage.module.css';
 
 /**
- * Wizard step 1/4 — phone entry.
- *
- * M6d ships this as a placeholder so route plumbing + the session context
- * can land independently. The Continue button advances to the household
- * page without resolving a real user.
+ * Wizard step 1/4 — phone entry. Wires `PrimaryPhoneEntry` to the
+ * session context and to wizard navigation. On a successful resolve,
+ * stores the user as the primary recipient and advances to the
+ * household step; an unregistered phone short-circuits to the
+ * registration page with the typed phone pre-filled.
  */
-// M6e: replace placeholder with PrimaryPhoneEntry organism that calls setPrimary
 export function CheckInPhonePage() {
   const navigate = useNavigate();
+  const { setPrimary } = useCheckInSession();
 
-  const handleContinue = () => {
+  const handleContinue = (user: User) => {
+    setPrimary(user);
     navigate('/check-in/household');
+  };
+
+  const handleRegisterRequest = (phone: string) => {
+    navigate(`/register?phone=${encodeURIComponent(phone)}`);
   };
 
   return (
@@ -31,14 +35,10 @@ export function CheckInPhonePage() {
           titleKey="wizard.shared.title.phone"
           subtitleKey="wizard.shared.subtitle.phone"
         />
-        <Card tone="default" padding="lg">
-          <BilingualText tKey="wizard.shared.placeholderBody" variant="body-md" />
-        </Card>
-        <PrimaryActionBar>
-          <Button fullWidth onClick={handleContinue} subLabel="Continuar">
-            Continue
-          </Button>
-        </PrimaryActionBar>
+        <PrimaryPhoneEntry
+          onContinue={handleContinue}
+          onRegisterRequest={handleRegisterRequest}
+        />
       </div>
     </PageLayout>
   );
