@@ -10,6 +10,13 @@ export interface ButtonProps {
   type?: 'button' | 'submit';
   disabled?: boolean;
   fullWidth?: boolean;
+  /**
+   * Optional second-line label (typically the Spanish translation of the
+   * main label). Rendered below the main label in the bilingual label
+   * type style. The span is marked `lang="es"` so screen readers switch
+   * voices appropriately.
+   */
+  subLabel?: string;
   /** Optional aria-label for icon-only buttons. */
   'aria-label'?: string;
 }
@@ -27,10 +34,12 @@ export function Button({
   type = 'button',
   disabled = false,
   fullWidth = false,
+  subLabel,
   'aria-label': ariaLabel,
 }: ButtonProps) {
   const classes = [styles.button, VARIANT_CLASS[variant]];
   if (fullWidth) classes.push(styles.fullWidth ?? '');
+  if (subLabel) classes.push(styles.bilingual ?? '');
 
   const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
     if (disabled) {
@@ -50,7 +59,16 @@ export function Button({
       // Prefer aria-disabled so the element stays focusable for AT discovery.
       // Native disabled would skip focus + screen reader announcement.
     >
-      {children}
+      {subLabel ? (
+        <>
+          <span className={styles.mainLabel}>{children}</span>
+          <span className={styles.subLabel} lang="es">
+            {subLabel}
+          </span>
+        </>
+      ) : (
+        children
+      )}
     </button>
   );
 }

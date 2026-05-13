@@ -8,7 +8,7 @@
   display: inline-block;
   border-radius: 50%;
   border-style: solid;
-  border-color: var(--color-bg-subtle);
+  border-color: var(--color-surface-container-high);
   border-top-color: var(--color-primary);
   animation: spin 0.9s linear infinite;
 }
@@ -38,10 +38,10 @@
 /* Reduced motion: dots fallback, no animation. */
 .dots {
   display: inline-flex;
-  gap: var(--space-1);
+  gap: 4px;
   align-items: center;
-  color: var(--color-fg-subtle);
-  font-weight: var(--font-weight-bold);
+  color: var(--color-on-surface-variant);
+  font-weight: 700;
   line-height: 1;
 }
 .dots span {
@@ -54,6 +54,6 @@
 @media (prefers-reduced-motion: reduce) {
   .spinner {
     animation: none;
-    border-top-color: var(--color-bg-subtle);
+    border-top-color: var(--color-surface-container-high);
   }
 }

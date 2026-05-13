@@ -41,8 +41,26 @@ describe('Button', () => {
     ).toBeInTheDocument();
   });
 
+  it('renders a bilingual sub-label below the main label when subLabel is set', () => {
+    render(<Button subLabel="Continuar">Continue</Button>);
+    const btn = screen.getByRole('button', { name: /Continue/i });
+    expect(btn).toHaveTextContent('Continue');
+    expect(btn).toHaveTextContent('Continuar');
+    // The Spanish sub-label must be tagged lang="es" so AT can switch voices.
+    const sub = screen.getByText('Continuar');
+    expect(sub).toHaveAttribute('lang', 'es');
+  });
+
   it('has no a11y violations', async () => {
     const { container } = render(<Button>Hello</Button>);
+    const results = await axe(container);
+    expect(results).toHaveNoViolations();
+  });
+
+  it('has no a11y violations when bilingual', async () => {
+    const { container } = render(
+      <Button subLabel="Continuar">Continue</Button>,
+    );
     const results = await axe(container);
     expect(results).toHaveNoViolations();
   });

@@ -1,15 +1,14 @@
 .label {
   display: inline-block;
-  font-family: var(--font-family);
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-medium);
-  line-height: var(--line-height-tight);
-  color: var(--color-fg);
-  margin-bottom: var(--space-2);
+  font: var(--font-label-bilingual);
+  letter-spacing: var(--letter-spacing-label-bilingual);
+  text-transform: uppercase;
+  color: var(--color-on-surface-variant);
+  margin-bottom: 8px;
 }
 
 .requiredMark {
-  margin-left: var(--space-1);
-  color: var(--color-danger);
+  margin-left: 4px;
+  color: var(--color-error);
   /* aria-hidden so SR doesn't double-announce. */
 }

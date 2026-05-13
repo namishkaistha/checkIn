@@ -2,6 +2,7 @@
   "atoms": {
     "languageToggle": {
       "groupLabel": "Idioma",
+      "pillLabel": "Cambiar el idioma entre inglés y español",
       "english": "English",
       "spanish": "Español"
     },
@@ -14,6 +15,9 @@
     },
     "label": {
       "requiredSr": "obligatorio"
+    },
+    "logo": {
+      "alt": "Logotipo de C&W Market Foundation"
     }
   },
   "molecules": {
@@ -34,8 +38,9 @@
     }
   },
   "app": {
-    "title": "Registro de Despensa",
+    "title": "C&W Market Foundation",
     "home": "Inicio",
+    "backLabel": "Atrás",
     "langChange": "Idioma cambiado a {{lang}}"
   },
   "pages": {

@@ -1,24 +1,24 @@
 .button {
   display: inline-flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: var(--space-2);
+  gap: 4px;
 
   min-height: var(--target-min);
   min-width: var(--target-min);
-  padding: var(--space-2) var(--space-5);
+  padding: 12px var(--space-margin-edge);
 
-  border: 1px solid transparent;
+  border: 2px solid transparent;
   border-radius: var(--radius-md);
 
-  font-family: var(--font-family);
-  font-size: var(--font-size-base);
-  font-weight: var(--font-weight-medium);
-  line-height: var(--line-height-tight);
+  font: var(--font-headline-md);
+  color: var(--color-on-surface);
 
   cursor: pointer;
   user-select: none;
-  transition: background-color var(--duration-quick) ease,
+  transition:
+    background-color var(--duration-quick) ease,
     border-color var(--duration-quick) ease,
     color var(--duration-quick) ease;
 }
@@ -32,32 +32,51 @@
   width: 100%;
 }
 
-/* Primary */
+/* Two-line bilingual layout: main label above, sub label below. */
+.bilingual {
+  gap: 2px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.mainLabel {
+  font: var(--font-headline-md);
+  line-height: 1.2;
+}
+
+.subLabel {
+  font: var(--font-label-bilingual);
+  letter-spacing: var(--letter-spacing-label-bilingual);
+  opacity: 0.92;
+}
+
+/* Primary — deep teal CTA */
 .primary {
   background: var(--color-primary);
-  color: var(--color-primary-fg);
+  color: var(--color-on-primary);
   border-color: var(--color-primary);
 }
 .primary:hover:not([aria-disabled='true']) {
-  background: var(--color-primary-hover);
-  border-color: var(--color-primary-hover);
+  background: var(--color-primary-container);
+  border-color: var(--color-primary-container);
 }
 
-/* Secondary */
+/* Secondary — outline only */
 .secondary {
-  background: var(--color-bg);
-  color: var(--color-fg);
-  border-color: var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-on-surface);
+  border-color: var(--color-outline-variant);
 }
 .secondary:hover:not([aria-disabled='true']) {
-  background: var(--color-bg-subtle);
+  background: var(--color-surface-container-low);
+  border-color: var(--color-outline);
 }
 
-/* Danger */
+/* Danger — error background */
 .danger {
-  background: var(--color-danger);
-  color: var(--color-danger-fg);
-  border-color: var(--color-danger);
+  background: var(--color-error);
+  color: var(--color-on-error);
+  border-color: var(--color-error);
 }
 .danger:hover:not([aria-disabled='true']) {
   filter: brightness(0.92);

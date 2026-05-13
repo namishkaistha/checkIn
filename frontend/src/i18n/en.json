@@ -2,6 +2,7 @@
   "atoms": {
     "languageToggle": {
       "groupLabel": "Language",
+      "pillLabel": "Toggle language between English and Spanish",
       "english": "English",
       "spanish": "Español"
     },
@@ -14,6 +15,9 @@
     },
     "label": {
       "requiredSr": "required"
+    },
+    "logo": {
+      "alt": "C&W Market Foundation logo"
     }
   },
   "molecules": {
@@ -34,8 +38,9 @@
     }
   },
   "app": {
-    "title": "Pantry Check-In",
+    "title": "C&W Market Foundation",
     "home": "Home",
+    "backLabel": "Back",
     "langChange": "Language changed to {{lang}}"
   },
   "pages": {

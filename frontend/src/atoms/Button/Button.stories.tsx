@@ -32,3 +32,13 @@ export const FullWidth: Story = {
   args: { variant: 'primary', fullWidth: true, children: 'Sign in' },
   parameters: { layout: 'padded' },
 };
+
+export const WithSubLabel: Story = {
+  args: {
+    variant: 'primary',
+    fullWidth: true,
+    children: 'Continue',
+    subLabel: 'Continuar',
+  },
+  parameters: { layout: 'padded' },
+};
