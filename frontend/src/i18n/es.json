@@ -50,6 +50,15 @@
       }
     }
   },
+  "organisms": {
+    "approvedCard": {
+      "title": "¡Registro completado!",
+      "body_one": "Estás listo para {{count}} bolsa hoy",
+      "body_other": "Estás listo para {{count}} bolsas hoy",
+      "nextStepsTitle": "Próximos pasos",
+      "nextStepsBody": "Por favor dirígete al área de recogida. Un voluntario te asistirá en breve."
+    }
+  },
   "app": {
     "title": "C&W Market Foundation",
     "home": "Inicio",

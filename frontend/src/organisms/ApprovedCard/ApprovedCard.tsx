@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '../../atoms/Button/Button';
-import { BagCount } from '../../molecules/BagCount/BagCount';
+import { Card } from '../../atoms/Card/Card';
+import { BilingualText } from '../../molecules/BilingualText/BilingualText';
 import styles from './ApprovedCard.module.css';
 
 export interface ApprovedCardProps {
@@ -42,40 +43,82 @@ export function ApprovedCard({ count, onReset }: ApprovedCardProps) {
   }, []);
 
   return (
-    <section className={styles.card} aria-labelledby="approved-heading">
+    <section
+      className={styles.card}
+      aria-label={t('organisms.approvedCard.title')}
+    >
       <div
-        className={styles.checkmark}
+        className={styles.iconWrap}
         role="img"
         aria-label={t('pages.approved.checkmarkLabel')}
       >
-        {/* SVG check mark — purely decorative once the aria-label is read. */}
+        {/* Large round green-tinted icon container holding a check mark.
+            The wrapper provides the tinted disc; the SVG is purely
+            decorative once the aria-label is read. */}
         <svg
-          viewBox="0 0 64 64"
-          width="64"
-          height="64"
+          className={styles.icon}
+          viewBox="0 0 24 24"
+          width="56"
+          height="56"
           aria-hidden="true"
           focusable="false"
         >
-          <circle cx="32" cy="32" r="30" fill="var(--color-success)" />
           <path
-            d="M18 33 L28 43 L46 23"
-            stroke="var(--color-success-fg)"
-            strokeWidth="6"
+            d="M5 12.5 L10 17.5 L19 7.5"
+            stroke="currentColor"
+            strokeWidth="3"
             strokeLinecap="round"
             strokeLinejoin="round"
             fill="none"
           />
         </svg>
       </div>
-      <h1 id="approved-heading" className={styles.heading}>
-        {t('pages.approved.heading')}
-      </h1>
-      <BagCount count={count} />
-      <p className={styles.timer} aria-live="off">
+
+      <BilingualText
+        as="h1"
+        variant="display"
+        align="center"
+        tKey="organisms.approvedCard.title"
+        className={styles.heading}
+      />
+
+      <BilingualText
+        as="p"
+        variant="body-lg"
+        align="center"
+        tKey="organisms.approvedCard.body"
+        values={{ count }}
+        className={styles.body}
+      />
+
+      <Card as="section" tone="info" padding="lg" className={styles.nextSteps}>
+        <BilingualText
+          as="h2"
+          variant="headline-md"
+          tKey="organisms.approvedCard.nextStepsTitle"
+          className={styles.nextStepsTitle}
+        />
+        <BilingualText
+          as="p"
+          variant="body-md"
+          tKey="organisms.approvedCard.nextStepsBody"
+        />
+      </Card>
+
+      <p
+        className={styles.timer}
+        aria-live="off"
+        data-testid="approved-auto-reset"
+      >
         {t('pages.approved.autoReset', { seconds: secondsLeft })}
       </p>
-      <Button onClick={onReset} fullWidth>
-        {t('pages.approved.done')}
+
+      <Button
+        onClick={onReset}
+        fullWidth
+        subLabel={t('pages.approved.done', { lng: 'es' })}
+      >
+        {t('pages.approved.done', { lng: 'en' })}
       </Button>
     </section>
   );

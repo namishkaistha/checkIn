@@ -54,12 +54,18 @@ describe('ApprovedPage', () => {
     fetchMock.mockResolvedValueOnce(jsonResponse(200, APPROVED_BATCH));
     renderPage();
 
+    // ApprovedCard's M6c reskin renders the bilingual display heading.
     await waitFor(() => {
       expect(
-        screen.getByRole('heading', { name: 'Checked in' }),
+        screen.getByRole('heading', {
+          level: 1,
+          name: /Check-in Complete!/,
+        }),
       ).toBeInTheDocument();
     });
-    expect(screen.getByTestId('bag-count')).toHaveTextContent('1 bag');
+    expect(
+      screen.getByText('You are all set for 1 bag today'),
+    ).toBeInTheDocument();
   });
 
   it('navigates home when Done is pressed', async () => {
@@ -68,10 +74,10 @@ describe('ApprovedPage', () => {
     renderPage();
     await waitFor(() => {
       expect(
-        screen.getByRole('button', { name: 'Done' }),
+        screen.getByRole('button', { name: /Done/ }),
       ).toBeInTheDocument();
     });
-    await user.click(screen.getByRole('button', { name: 'Done' }));
+    await user.click(screen.getByRole('button', { name: /Done/ }));
     expect(screen.getByTestId('home')).toBeInTheDocument();
   });
 });

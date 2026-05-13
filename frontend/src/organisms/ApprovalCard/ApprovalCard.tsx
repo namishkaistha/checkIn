@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Card } from '../../atoms/Card/Card';
 import { LongPressButton } from '../../atoms/LongPressButton/LongPressButton';
 import { BagCount } from '../../molecules/BagCount/BagCount';
+import { BilingualText } from '../../molecules/BilingualText/BilingualText';
 import { ErrorBanner } from '../../molecules/ErrorBanner/ErrorBanner';
 import { PersonRow } from '../../molecules/PersonRow/PersonRow';
-import styles from './ConfirmationCard.module.css';
+import styles from './ApprovalCard.module.css';
 
 export interface ConfirmationRow {
   user: { id: string; full_name: string; phone_number: string };
@@ -12,7 +14,7 @@ export interface ConfirmationRow {
   last_check_in_at?: string | null;
 }
 
-export interface ConfirmationCardProps {
+export interface ApprovalCardProps {
   rows: ConfirmationRow[];
   anyBlocked: boolean;
   /**
@@ -24,11 +26,11 @@ export interface ConfirmationCardProps {
   onApprove: (override: boolean) => Promise<void>;
 }
 
-export function ConfirmationCard({
+export function ApprovalCard({
   rows,
   anyBlocked,
   onApprove,
-}: ConfirmationCardProps) {
+}: ApprovalCardProps) {
   const { t } = useTranslation();
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
@@ -68,13 +70,26 @@ export function ConfirmationCard({
       </ul>
 
       {anyBlocked ? (
-        <div className={styles.blockedBlock} role="region" aria-live="polite">
-          <h2 className={styles.blockedHeading}>
-            {t('pages.confirmation.blockedHeading')}
-          </h2>
-          <p className={styles.blockedExplanation}>
-            {t('pages.confirmation.blockedExplanation')}
-          </p>
+        <Card
+          as="section"
+          tone="warning"
+          padding="lg"
+          className={styles.blockedBlock}
+        >
+          <div role="region" aria-live="polite">
+            <BilingualText
+              as="h2"
+              variant="headline-md"
+              tKey="pages.confirmation.blockedHeading"
+              className={styles.blockedHeading}
+            />
+            <BilingualText
+              as="p"
+              variant="body-md"
+              tKey="pages.confirmation.blockedExplanation"
+              className={styles.blockedExplanation}
+            />
+          </div>
           <LongPressButton
             variant="success"
             onLongPress={() => void handleApprove(true)}
@@ -82,7 +97,7 @@ export function ConfirmationCard({
           >
             {t('pages.confirmation.approveAnyway')}
           </LongPressButton>
-        </div>
+        </Card>
       ) : (
         <LongPressButton
           variant="primary"
@@ -96,4 +111,4 @@ export function ConfirmationCard({
   );
 }
 
-export default ConfirmationCard;
+export default ApprovalCard;

@@ -53,7 +53,7 @@ function renderAt(id = 'batch-xyz') {
 }
 
 describe('ConfirmationPage', () => {
-  it('fetches the batch on mount and renders ConfirmationCard', async () => {
+  it('fetches the batch on mount and renders ApprovalCard', async () => {
     fetchMock.mockResolvedValueOnce(jsonResponse(200, PENDING_BATCH));
     renderAt('batch-xyz');
 

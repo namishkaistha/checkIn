@@ -133,6 +133,31 @@ describe('LongPressButton', () => {
     expect(btn).toHaveAttribute('aria-pressed', 'false');
   });
 
+  it('drives the fill layer via the --progress CSS variable as the hold advances', () => {
+    render(
+      <LongPressButton onLongPress={() => {}} durationMs={1000}>
+        Confirm
+      </LongPressButton>,
+    );
+    const btn = getButton();
+    // Before pointerDown the CSS variable is 0.
+    expect(btn.style.getPropertyValue('--progress')).toBe('0');
+
+    fireEvent.pointerDown(btn, { button: 0 });
+    act(() => {
+      vi.advanceTimersByTime(500); // ~50% of 1000ms duration
+    });
+
+    const mid = parseFloat(btn.style.getPropertyValue('--progress'));
+    expect(mid).toBeGreaterThan(0);
+    expect(mid).toBeLessThanOrEqual(1);
+
+    act(() => {
+      vi.advanceTimersByTime(600); // fully complete the hold
+    });
+    expect(parseFloat(btn.style.getPropertyValue('--progress'))).toBe(1);
+  });
+
   it('has no a11y violations', async () => {
     vi.useRealTimers(); // axe needs real timers internally
     const { container } = render(

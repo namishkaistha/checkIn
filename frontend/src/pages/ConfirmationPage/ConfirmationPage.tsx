@@ -12,7 +12,7 @@ import type { CheckInBatch, CheckInBatchApproved } from '../../api/types';
 import { Button } from '../../atoms/Button/Button';
 import { Spinner } from '../../atoms/Spinner/Spinner';
 import { ErrorBanner } from '../../molecules/ErrorBanner/ErrorBanner';
-import { ConfirmationCard } from '../../organisms/ConfirmationCard/ConfirmationCard';
+import { ApprovalCard } from '../../organisms/ApprovalCard/ApprovalCard';
 import { PageLayout } from '../../templates/PageLayout/PageLayout';
 
 type LoadState =
@@ -87,7 +87,7 @@ export function ConfirmationPage() {
             any_blocked: true,
           },
         });
-        // Re-throw so the ConfirmationCard's banner catches the message.
+        // Re-throw so the ApprovalCard's banner catches the message.
         throw err;
       }
       throw err;
@@ -127,7 +127,7 @@ export function ConfirmationPage() {
   // pending
   return (
     <PageLayout title={t('pages.confirmation.heading')}>
-      <ConfirmationCard
+      <ApprovalCard
         rows={state.batch.rows}
         anyBlocked={state.batch.any_blocked}
         onApprove={handleApprove}

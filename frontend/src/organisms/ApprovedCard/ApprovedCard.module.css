@@ -1,30 +1,68 @@
+/*
+ * ApprovedCard — Enthusiastic Accessibility reskin (M6c).
+ *
+ * Layout: vertical stack centred horizontally. Hero icon disc (big
+ * green-tinted circle with a check), bilingual display heading,
+ * bilingual subtitle, Next-Steps info Card, auto-reset timer, big
+ * Done button. No shadows — sturdy borders per EA system.
+ */
+
 .card {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: var(--space-5);
-  padding: var(--space-6) var(--space-4);
+  align-items: stretch;
+  gap: var(--space-stack-gap);
+  padding: var(--space-stack-gap) var(--space-margin-edge);
   width: 100%;
 }
 
-.checkmark {
+/* Large round green-tinted disc holding the check. Acts as the "hero"
+   visual cue confirming success. The text color of the check is set
+   via `currentColor` on the SVG, so we set `color` here. */
+.iconWrap {
+  align-self: center;
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 112px;
+  height: 112px;
+  border-radius: 50%;
+  background: var(--color-secondary-container);
+  color: var(--color-on-secondary-container);
+  border: 2px solid var(--color-secondary);
+}
+
+.icon {
+  display: block;
 }
 
 .heading {
   margin: 0;
-  font-size: var(--font-size-2xl);
-  font-weight: var(--font-weight-bold);
-  color: var(--color-success);
-  line-height: var(--line-height-tight);
-  text-align: center;
+  color: var(--color-on-surface);
+}
+
+.body {
+  margin: 0;
+  color: var(--color-on-surface-variant);
+}
+
+.nextSteps {
+  /* Card atom provides border/background; we just need internal spacing
+     between the title and the body. */
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.nextStepsTitle {
+  margin: 0;
 }
 
 .timer {
   margin: 0;
-  font-size: var(--font-size-sm);
-  color: var(--color-fg-subtle);
   text-align: center;
+  font-size: var(--font-size-label-bilingual);
+  font-weight: var(--font-weight-medium);
+  letter-spacing: var(--letter-spacing-label-bilingual);
+  color: var(--color-on-surface-variant);
 }

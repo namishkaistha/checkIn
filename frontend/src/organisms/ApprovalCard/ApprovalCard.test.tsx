@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { ConfirmationCard } from './ConfirmationCard';
+import { axe } from 'jest-axe';
+import { ApprovalCard } from './ApprovalCard';
 
 const cleanRow = {
   user: { id: 'u1', full_name: 'Jane Doe', phone_number: '+14155552671' },
@@ -14,7 +15,7 @@ const blockedRow = {
   last_check_in_at: '2026-04-29T14:00:00Z',
 };
 
-describe('ConfirmationCard', () => {
+describe('ApprovalCard', () => {
   beforeEach(() => {
     vi.useFakeTimers();
   });
@@ -24,7 +25,7 @@ describe('ConfirmationCard', () => {
 
   it('renders BagCount with rows.length and one PersonRow per row', () => {
     render(
-      <ConfirmationCard
+      <ApprovalCard
         rows={[cleanRow, blockedRow]}
         anyBlocked={true}
         onApprove={async () => {}}
@@ -37,7 +38,7 @@ describe('ConfirmationCard', () => {
 
   it('shows the blocked block when anyBlocked is true', () => {
     render(
-      <ConfirmationCard
+      <ApprovalCard
         rows={[blockedRow]}
         anyBlocked={true}
         onApprove={async () => {}}
@@ -53,7 +54,7 @@ describe('ConfirmationCard', () => {
 
   it('shows the standard hold-to-approve button when no rows are blocked', () => {
     render(
-      <ConfirmationCard
+      <ApprovalCard
         rows={[cleanRow]}
         anyBlocked={false}
         onApprove={async () => {}}
@@ -70,7 +71,7 @@ describe('ConfirmationCard', () => {
   it('calls onApprove(false) on a successful long-press in the clean flow', async () => {
     const onApprove = vi.fn().mockResolvedValue(undefined);
     render(
-      <ConfirmationCard
+      <ApprovalCard
         rows={[cleanRow]}
         anyBlocked={false}
         onApprove={onApprove}
@@ -93,7 +94,7 @@ describe('ConfirmationCard', () => {
   it('calls onApprove(true) when the blocked variant is held', async () => {
     const onApprove = vi.fn().mockResolvedValue(undefined);
     render(
-      <ConfirmationCard
+      <ApprovalCard
         rows={[blockedRow]}
         anyBlocked={true}
         onApprove={onApprove}
@@ -115,7 +116,7 @@ describe('ConfirmationCard', () => {
     vi.useRealTimers();
     const onApprove = vi.fn().mockRejectedValue(new Error('Server fault'));
     render(
-      <ConfirmationCard
+      <ApprovalCard
         rows={[cleanRow]}
         anyBlocked={false}
         onApprove={onApprove}
@@ -132,5 +133,31 @@ describe('ConfirmationCard', () => {
     await waitFor(() => {
       expect(screen.getByRole('alert')).toHaveTextContent('Server fault');
     });
+  });
+
+  it('has no a11y violations (clean flow)', async () => {
+    vi.useRealTimers();
+    const { container } = render(
+      <ApprovalCard
+        rows={[cleanRow]}
+        anyBlocked={false}
+        onApprove={async () => {}}
+      />,
+    );
+    const results = await axe(container);
+    expect(results).toHaveNoViolations();
+  });
+
+  it('has no a11y violations (blocked flow with warning Card)', async () => {
+    vi.useRealTimers();
+    const { container } = render(
+      <ApprovalCard
+        rows={[blockedRow]}
+        anyBlocked={true}
+        onApprove={async () => {}}
+      />,
+    );
+    const results = await axe(container);
+    expect(results).toHaveNoViolations();
   });
 });

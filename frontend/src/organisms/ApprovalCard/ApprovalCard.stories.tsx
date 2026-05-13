@@ -1,13 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { ConfirmationCard } from './ConfirmationCard';
+import { ApprovalCard } from './ApprovalCard';
 
-const meta: Meta<typeof ConfirmationCard> = {
-  title: 'Organisms/ConfirmationCard',
-  component: ConfirmationCard,
+const meta: Meta<typeof ApprovalCard> = {
+  title: 'Organisms/ApprovalCard',
+  component: ApprovalCard,
 };
 
 export default meta;
-type Story = StoryObj<typeof ConfirmationCard>;
+type Story = StoryObj<typeof ApprovalCard>;
 
 const baseRow = {
   user: {

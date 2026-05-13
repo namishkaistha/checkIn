@@ -50,6 +50,15 @@
       }
     }
   },
+  "organisms": {
+    "approvedCard": {
+      "title": "Check-in Complete!",
+      "body_one": "You are all set for {{count}} bag today",
+      "body_other": "You are all set for {{count}} bags today",
+      "nextStepsTitle": "Next steps",
+      "nextStepsBody": "Please proceed to the pickup area. A volunteer will assist you shortly."
+    }
+  },
   "app": {
     "title": "C&W Market Foundation",
     "home": "Home",

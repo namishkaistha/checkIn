@@ -1,21 +1,40 @@
+/*
+ * LongPressButton — Enthusiastic Accessibility reskin (M6c).
+ *
+ * Visual: an 80px-min-height pill with a 2px primary-teal border. The
+ * volunteer holds it; the background fills LEFT → RIGHT as the
+ * `useLongPress` hook advances. The fill layer uses
+ * `--color-secondary-container` (light vibrant green) so the label can
+ * stay at a single, accessible color (`--color-on-secondary-container`,
+ * a deep green) over both the unfilled (light surface) and filled
+ * (light-green) portions — no contrast trap as the bar grows.
+ *
+ * The JSX (untouched) writes `--progress: <0..1>` and renders a
+ * `<span class="progress">` overlay that we restyle as the fill.
+ */
+
 .button {
   position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  gap: var(--space-1);
+  gap: 4px;
 
-  min-height: var(--target-min);
+  /* Volunteer-critical CTA: bigger than the standard 64px touch target. */
+  min-height: 80px;
   min-width: var(--target-min);
-  padding: var(--space-3) var(--space-6);
+  width: 100%;
+  padding: var(--space-3) var(--space-5);
 
-  border: 2px solid transparent;
-  border-radius: var(--radius-md);
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-container-lowest);
+  color: var(--color-on-secondary-container);
 
   font-family: var(--font-family);
-  font-size: var(--font-size-base);
-  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-body-lg);
+  font-weight: var(--font-weight-bold);
   line-height: var(--line-height-tight);
 
   cursor: pointer;
@@ -29,20 +48,19 @@
   box-shadow: var(--focus-ring);
 }
 
+/* Variants are now tonal accents on the BORDER only; the fill layer is
+   uniformly the secondary-container green. This keeps label contrast
+   constant whatever the variant. */
 .primary {
-  background: var(--color-primary);
-  color: var(--color-primary-fg);
   border-color: var(--color-primary);
 }
 
 .success {
-  background: var(--color-success);
-  color: var(--color-success-fg);
-  border-color: var(--color-success);
+  border-color: var(--color-secondary);
 }
 
 .button[aria-disabled='true'] {
-  opacity: 0.55;
+  opacity: 0.6;
   cursor: not-allowed;
 }
 
@@ -54,35 +72,48 @@
 .hint {
   position: relative;
   z-index: 1;
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-label-bilingual);
   font-weight: var(--font-weight-regular);
+  letter-spacing: var(--letter-spacing-label-bilingual);
 }
 
-/* Progress overlay - a horizontal fill that grows L->R while held. */
+/* Left-to-right fill driven by --progress (0..1). Width interpolates;
+   no transform-origin tricks. Layered behind the label via z-index. */
 .progress {
   position: absolute;
-  inset: 0;
-  background: rgba(255, 255, 255, 0.25);
-  transform-origin: left center;
-  transform: scaleX(var(--progress, 0));
-  transition: transform 80ms linear;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: calc(var(--progress, 0) * 100%);
+  background: var(--color-secondary-container);
+  transition: width 80ms linear;
   z-index: 0;
   pointer-events: none;
 }
 
+/* When the hook reports `isDone`, draw a strong border + slight saturation
+   bump so the volunteer gets a clear "fired" cue before navigation. */
 .done {
-  background: rgba(255, 255, 255, 0.45);
+  background: var(--color-secondary);
+}
+
+.button:has(.done) {
+  border-color: var(--color-secondary);
+  box-shadow: var(--focus-ring);
 }
 
 .holdingText {
   position: relative;
   z-index: 1;
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-label-bilingual);
   font-weight: var(--font-weight-medium);
 }
 
 @media (prefers-reduced-motion: reduce) {
+  /* The hook still drives `--progress` (it manages its own timing); we
+     just remove the visual transition so the bar snaps instead of
+     animating. The bar is still shown so volunteers see hold state. */
   .progress {
-    display: none;
+    transition: none;
   }
 }
