@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { ConfirmationPage } from './ConfirmationPage';
+import { CheckInApprovePage } from './CheckInApprovePage';
 
 function jsonResponse(status: number, body: unknown): Response {
   return new Response(JSON.stringify(body), {
@@ -39,9 +39,12 @@ const PENDING_BATCH = {
 
 function renderAt(id = 'batch-xyz') {
   return render(
-    <MemoryRouter initialEntries={[`/confirm/${id}`]}>
+    <MemoryRouter initialEntries={[`/check-in/approve/${id}`]}>
       <Routes>
-        <Route path="/confirm/:id" element={<ConfirmationPage />} />
+        <Route
+          path="/check-in/approve/:batchId"
+          element={<CheckInApprovePage />}
+        />
         <Route
           path="/approved/:id"
           element={<div data-testid="approved-page">APPROVED</div>}
@@ -52,7 +55,7 @@ function renderAt(id = 'batch-xyz') {
   );
 }
 
-describe('ConfirmationPage', () => {
+describe('CheckInApprovePage', () => {
   it('fetches the batch on mount and renders ApprovalCard', async () => {
     fetchMock.mockResolvedValueOnce(jsonResponse(200, PENDING_BATCH));
     renderAt('batch-xyz');

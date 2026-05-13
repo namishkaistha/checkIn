@@ -12,6 +12,7 @@ import type { CheckInBatch, CheckInBatchApproved } from '../../api/types';
 import { Button } from '../../atoms/Button/Button';
 import { Spinner } from '../../atoms/Spinner/Spinner';
 import { ErrorBanner } from '../../molecules/ErrorBanner/ErrorBanner';
+import { WizardStepHeader } from '../../molecules/WizardStepHeader/WizardStepHeader';
 import { ApprovalCard } from '../../organisms/ApprovalCard/ApprovalCard';
 import { PageLayout } from '../../templates/PageLayout/PageLayout';
 
@@ -27,14 +28,20 @@ function isApproved(
   return 'approved_at' in b;
 }
 
-export function ConfirmationPage() {
+/**
+ * Wizard step 4/4 — volunteer approval. Renamed from `ConfirmationPage`
+ * in M6d. Body behavior is unchanged (batch loading, error handling,
+ * approve flow); the only visual addition is the wizard step header so
+ * the volunteer + recipient can see they're on the final step.
+ */
+export function CheckInApprovePage() {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { id } = useParams<{ id: string }>();
+  const { batchId } = useParams<{ batchId: string }>();
   const [state, setState] = useState<LoadState>({ kind: 'loading' });
 
   useEffect(() => {
-    if (!id) {
+    if (!batchId) {
       setState({ kind: 'notFound' });
       return;
     }
@@ -42,12 +49,12 @@ export function ConfirmationPage() {
     const controller = new AbortController();
     void (async () => {
       try {
-        const batch = await getBatch(id, { signal: controller.signal });
+        const batch = await getBatch(batchId, { signal: controller.signal });
         if (cancelled) return;
         if (isApproved(batch)) {
           // Already approved — bounce to the approved view rather than
           // letting the volunteer try to approve a second time.
-          navigate(`/approved/${id}`, { replace: true });
+          navigate(`/approved/${batchId}`, { replace: true });
           return;
         }
         setState({ kind: 'pending', batch });
@@ -68,13 +75,13 @@ export function ConfirmationPage() {
       cancelled = true;
       controller.abort();
     };
-  }, [id, navigate]);
+  }, [batchId, navigate]);
 
   const handleApprove = async (override: boolean) => {
-    if (!id) return;
+    if (!batchId) return;
     try {
-      await approveBatch(id, { override });
-      navigate(`/approved/${id}`);
+      await approveBatch(batchId, { override });
+      navigate(`/approved/${batchId}`);
     } catch (err) {
       if (err instanceof ApproveBlockedError) {
         // Server flipped a row to blocked between fetch and approve. Surface
@@ -82,7 +89,7 @@ export function ConfirmationPage() {
         setState({
           kind: 'pending',
           batch: {
-            batch_id: id,
+            batch_id: batchId,
             rows: err.rows,
             any_blocked: true,
           },
@@ -94,9 +101,18 @@ export function ConfirmationPage() {
     }
   };
 
+  const header = (
+    <WizardStepHeader
+      current={4}
+      total={4}
+      titleKey="wizard.shared.title.approve"
+    />
+  );
+
   if (state.kind === 'loading') {
     return (
       <PageLayout title={t('pages.confirmation.heading')}>
+        {header}
         <Spinner size="lg" label={t('common.loading')} />
       </PageLayout>
     );
@@ -105,6 +121,7 @@ export function ConfirmationPage() {
   if (state.kind === 'notFound') {
     return (
       <PageLayout title={t('pages.confirmation.heading')}>
+        {header}
         <ErrorBanner message={t('common.error')} />
         <Button onClick={() => navigate('/')} fullWidth>
           {t('common.goHome')}
@@ -116,6 +133,7 @@ export function ConfirmationPage() {
   if (state.kind === 'error') {
     return (
       <PageLayout title={t('pages.confirmation.heading')}>
+        {header}
         <ErrorBanner message={state.message} />
         <Button onClick={() => navigate('/')} fullWidth>
           {t('common.goHome')}
@@ -127,6 +145,7 @@ export function ConfirmationPage() {
   // pending
   return (
     <PageLayout title={t('pages.confirmation.heading')}>
+      {header}
       <ApprovalCard
         rows={state.batch.rows}
         anyBlocked={state.batch.any_blocked}
@@ -136,4 +155,4 @@ export function ConfirmationPage() {
   );
 }
 
-export default ConfirmationPage;
+export default CheckInApprovePage;

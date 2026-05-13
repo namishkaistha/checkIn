@@ -119,7 +119,8 @@
         "phone": "Usamos tu número de teléfono para encontrar tu registro.",
         "household": "Agrega a cualquier otra persona que recoja contigo.",
         "approve": "Un voluntario mantendrá presionado para aprobar."
-      }
+      },
+      "placeholderBody": "Próximamente en el siguiente hito"
     }
   },
   "common": {

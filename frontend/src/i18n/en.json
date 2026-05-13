@@ -119,7 +119,8 @@
         "phone": "We use your phone number to find your record.",
         "household": "Add anyone else picking up with you.",
         "approve": "A volunteer will press and hold to approve."
-      }
+      },
+      "placeholderBody": "Coming in the next milestone"
     }
   },
   "common": {
