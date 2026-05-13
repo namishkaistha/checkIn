@@ -1,0 +1,135 @@
+/*
+ * BilingualText stacks the two language spans vertically with a small
+ * gap, and uses the body-level `lang-en-primary` / `lang-es-primary`
+ * class to decide which side gets the dominant typography. When neither
+ * class is set on `<body>`, English is treated as primary so the page
+ * still has a sensible default during initial render and in Storybook.
+ */
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: calc(var(--space-unit) / 2); /* 4px */
+  margin: 0;
+}
+
+.alignStart {
+  align-items: flex-start;
+  text-align: left;
+}
+
+.alignCenter {
+  align-items: center;
+  text-align: center;
+}
+
+/* Default: English primary, Spanish in label-bilingual */
+.en {
+  font: var(--font-body-md);
+  color: var(--color-on-surface);
+}
+.es {
+  font: var(--font-label-bilingual);
+  letter-spacing: var(--letter-spacing-label-bilingual);
+  color: var(--color-on-surface-variant);
+}
+
+/* When the document opts into Spanish primary, swap typography */
+:global(body.lang-es-primary) .en {
+  font: var(--font-label-bilingual);
+  letter-spacing: var(--letter-spacing-label-bilingual);
+  color: var(--color-on-surface-variant);
+}
+:global(body.lang-es-primary) .es {
+  font: var(--font-body-md);
+  color: var(--color-on-surface);
+}
+
+/* When the document explicitly opts into English primary, keep defaults
+ * (here as an explicit anchor so the cascade reads symmetrically). */
+:global(body.lang-en-primary) .en {
+  font: var(--font-body-md);
+  color: var(--color-on-surface);
+}
+:global(body.lang-en-primary) .es {
+  font: var(--font-label-bilingual);
+  letter-spacing: var(--letter-spacing-label-bilingual);
+  color: var(--color-on-surface-variant);
+}
+
+/* ----- variant overrides apply to the PRIMARY span ------------------ */
+/* Default mode (no body class) → English is primary */
+.variantDisplay .en {
+  font: var(--font-display);
+}
+.variantHeadlineLg .en {
+  font: var(--font-headline-lg);
+}
+.variantHeadlineMd .en {
+  font: var(--font-headline-md);
+}
+.variantBodyLg .en {
+  font: var(--font-body-lg);
+}
+.variantBodyMd .en {
+  font: var(--font-body-md);
+}
+.variantLabel .en {
+  font: var(--font-label-bilingual);
+  letter-spacing: var(--letter-spacing-label-bilingual);
+}
+
+/* Explicit English-primary mode mirrors the default. */
+:global(body.lang-en-primary) .variantDisplay .en {
+  font: var(--font-display);
+}
+:global(body.lang-en-primary) .variantHeadlineLg .en {
+  font: var(--font-headline-lg);
+}
+:global(body.lang-en-primary) .variantHeadlineMd .en {
+  font: var(--font-headline-md);
+}
+:global(body.lang-en-primary) .variantBodyLg .en {
+  font: var(--font-body-lg);
+}
+:global(body.lang-en-primary) .variantBodyMd .en {
+  font: var(--font-body-md);
+}
+:global(body.lang-en-primary) .variantLabel .en {
+  font: var(--font-label-bilingual);
+  letter-spacing: var(--letter-spacing-label-bilingual);
+}
+
+/* Spanish-primary mode → variant typography lands on the Spanish span */
+:global(body.lang-es-primary) .variantDisplay .en {
+  font: var(--font-label-bilingual);
+  letter-spacing: var(--letter-spacing-label-bilingual);
+}
+:global(body.lang-es-primary) .variantHeadlineLg .en,
+:global(body.lang-es-primary) .variantHeadlineMd .en,
+:global(body.lang-es-primary) .variantBodyLg .en,
+:global(body.lang-es-primary) .variantBodyMd .en,
+:global(body.lang-es-primary) .variantLabel .en {
+  font: var(--font-label-bilingual);
+  letter-spacing: var(--letter-spacing-label-bilingual);
+}
+
+:global(body.lang-es-primary) .variantDisplay .es {
+  font: var(--font-display);
+}
+:global(body.lang-es-primary) .variantHeadlineLg .es {
+  font: var(--font-headline-lg);
+}
+:global(body.lang-es-primary) .variantHeadlineMd .es {
+  font: var(--font-headline-md);
+}
+:global(body.lang-es-primary) .variantBodyLg .es {
+  font: var(--font-body-lg);
+}
+:global(body.lang-es-primary) .variantBodyMd .es {
+  font: var(--font-body-md);
+}
+:global(body.lang-es-primary) .variantLabel .es {
+  font: var(--font-label-bilingual);
+  letter-spacing: var(--letter-spacing-label-bilingual);
+}

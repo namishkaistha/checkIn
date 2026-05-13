@@ -18,6 +18,12 @@
     },
     "logo": {
       "alt": "C&W Market Foundation logo"
+    },
+    "stepIndicator": {
+      "format": "Step {{current}} of {{total}}"
+    },
+    "progressBar": {
+      "defaultLabel": "Wizard progress"
     }
   },
   "molecules": {
@@ -35,6 +41,13 @@
     },
     "errorBanner": {
       "dismiss": "Dismiss"
+    },
+    "noticeCard": {
+      "iconLabel": {
+        "info": "Information",
+        "help": "Help",
+        "warning": "Warning"
+      }
     }
   },
   "app": {
@@ -46,6 +59,7 @@
   "pages": {
     "landing": {
       "heading": "Pantry Check-In",
+      "title": "Welcome to C&W Market Foundation",
       "checkInButton": "Check In",
       "registerButton": "Register a new person"
     },
@@ -84,10 +98,30 @@
       "checkmarkLabel": "Approved"
     }
   },
+  "wizard": {
+    "shared": {
+      "title": {
+        "phone": "Enter Phone Number",
+        "household": "Household Members",
+        "summary": "Order Summary",
+        "approve": "Volunteer Approval"
+      },
+      "subtitle": {
+        "phone": "We use your phone number to find your record.",
+        "household": "Add anyone else picking up with you.",
+        "approve": "A volunteer will press and hold to approve."
+      }
+    }
+  },
   "common": {
     "loading": "Loading…",
     "error": "Something went wrong",
     "tryAgain": "Try again",
     "goHome": "Go home"
+  },
+  "stories": {
+    "bilingualText": {
+      "interpolatedGreeting": "Hello, {{name}}"
+    }
   }
 }

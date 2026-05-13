@@ -18,6 +18,12 @@
     },
     "logo": {
       "alt": "Logotipo de C&W Market Foundation"
+    },
+    "stepIndicator": {
+      "format": "Paso {{current}} de {{total}}"
+    },
+    "progressBar": {
+      "defaultLabel": "Progreso del asistente"
     }
   },
   "molecules": {
@@ -35,6 +41,13 @@
     },
     "errorBanner": {
       "dismiss": "Cerrar"
+    },
+    "noticeCard": {
+      "iconLabel": {
+        "info": "Información",
+        "help": "Ayuda",
+        "warning": "Advertencia"
+      }
     }
   },
   "app": {
@@ -46,6 +59,7 @@
   "pages": {
     "landing": {
       "heading": "Registro de Despensa",
+      "title": "Bienvenido a C&W Market Foundation",
       "checkInButton": "Registrarse",
       "registerButton": "Registrar a una nueva persona"
     },
@@ -84,10 +98,30 @@
       "checkmarkLabel": "Aprobado"
     }
   },
+  "wizard": {
+    "shared": {
+      "title": {
+        "phone": "Ingrese su número",
+        "household": "Miembros del hogar",
+        "summary": "Resumen del pedido",
+        "approve": "Aprobación del voluntario"
+      },
+      "subtitle": {
+        "phone": "Usamos tu número de teléfono para encontrar tu registro.",
+        "household": "Agrega a cualquier otra persona que recoja contigo.",
+        "approve": "Un voluntario mantendrá presionado para aprobar."
+      }
+    }
+  },
   "common": {
     "loading": "Cargando…",
     "error": "Algo salió mal",
     "tryAgain": "Intentar de nuevo",
     "goHome": "Ir al inicio"
+  },
+  "stories": {
+    "bilingualText": {
+      "interpolatedGreeting": "Hola, {{name}}"
+    }
   }
 }

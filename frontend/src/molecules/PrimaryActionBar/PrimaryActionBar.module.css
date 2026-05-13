@@ -1,0 +1,20 @@
+.bar {
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-unit);
+
+  padding: var(--space-margin-edge);
+  background: var(--color-surface);
+  border-top: 2px solid var(--color-outline-variant);
+}
+
+/* Force the single CTA to span the bar so wizard pages don't need to
+ * pass `fullWidth` on every Button. */
+.bar > * {
+  width: 100%;
+}

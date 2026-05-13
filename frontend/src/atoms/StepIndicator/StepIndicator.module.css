@@ -1,0 +1,19 @@
+.chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  background: var(--color-secondary-container);
+  color: var(--color-on-secondary-container);
+  border: 2px solid var(--color-secondary);
+  border-radius: 9999px;
+  padding: var(--space-unit) calc(var(--space-unit) * 3);
+
+  font: var(--font-label-bilingual);
+  letter-spacing: var(--letter-spacing-label-bilingual);
+}
+
+.divider {
+  margin: 0 4px;
+}

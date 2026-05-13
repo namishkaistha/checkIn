@@ -1,0 +1,52 @@
+.card {
+  display: block;
+  border: 2px solid var(--color-outline-variant);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-container-lowest);
+  color: var(--color-on-surface);
+}
+
+/* Padding scale */
+.paddingSm {
+  padding: 12px;
+}
+.paddingMd {
+  padding: var(--space-gutter);
+}
+.paddingLg {
+  padding: var(--space-stack-gap);
+}
+
+/* Tone — default (already set above as the base). */
+.toneDefault {
+  border-color: var(--color-outline-variant);
+  background: var(--color-surface-container-lowest);
+}
+
+/* Tone — info: dashed outline-variant border, low surface tint */
+.toneInfo {
+  border-style: dashed;
+  border-color: var(--color-outline-variant);
+  background: var(--color-surface-container-low);
+}
+
+/* Tone — warning: tertiary deep-red palette (EA replaced --color-warning) */
+.toneWarning {
+  border-color: var(--color-tertiary);
+  background: var(--color-tertiary-container);
+  color: var(--color-on-tertiary-container);
+}
+
+/* Tone — success: vibrant green */
+.toneSuccess {
+  border-color: var(--color-secondary);
+  background: var(--color-secondary-container);
+  color: var(--color-on-secondary-container);
+}
+
+/* Tone — error */
+.toneError {
+  border-color: var(--color-error);
+  background: var(--color-error-container);
+  color: var(--color-on-error-container);
+}
