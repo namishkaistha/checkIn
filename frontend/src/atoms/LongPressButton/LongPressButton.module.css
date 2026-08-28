@@ -77,23 +77,38 @@
   letter-spacing: var(--letter-spacing-label-bilingual);
 }
 
-/* Left-to-right fill driven by --progress (0..1). Width interpolates;
-   no transform-origin tricks. Layered behind the label via z-index. */
+/* Left-to-right fill. Default state is empty; while the button reports
+   aria-pressed=true (hook says isHolding), a single CSS keyframes
+   animation grows the width from 0 to 100% over `--duration-ms`. That
+   runs on the compositor at 60fps regardless of React rerenders and
+   without the 80ms-transition restart problem the JS-per-frame version
+   had on phones. */
 .progress {
   position: absolute;
   top: 0;
   left: 0;
   bottom: 0;
-  width: calc(var(--progress, 0) * 100%);
+  width: 0;
   background: var(--color-secondary-container);
-  transition: width 80ms linear;
   z-index: 0;
   pointer-events: none;
+  will-change: width;
 }
 
-/* When the hook reports `isDone`, draw a strong border + slight saturation
-   bump so the volunteer gets a clear "fired" cue before navigation. */
+.button[aria-pressed='true'] .progress {
+  animation: lpb-fill var(--duration-ms, 1500ms) linear forwards;
+}
+
+@keyframes lpb-fill {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+/* When the hook reports `isDone`, hold the bar at 100% and switch to the
+   stronger secondary color so the volunteer gets a clear "fired" cue
+   before navigation. */
 .done {
+  width: 100%;
   background: var(--color-secondary);
 }
 
@@ -110,10 +125,10 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  /* The hook still drives `--progress` (it manages its own timing); we
-     just remove the visual transition so the bar snaps instead of
-     animating. The bar is still shown so volunteers see hold state. */
-  .progress {
-    transition: none;
+  /* Reduced-motion viewers get the stepped, JS-driven fill from the hook
+     — a smooth 1.5s crawl is exactly what they've asked us NOT to run. */
+  .button[aria-pressed='true'] .progress {
+    animation: none;
+    width: calc(var(--progress, 0) * 100%);
   }
 }

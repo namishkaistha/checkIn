@@ -62,6 +62,7 @@ export function LongPressButton({
 
   const style: CSSProperties = {
     ['--progress' as string]: String(progress),
+    ['--duration-ms' as string]: `${durationMs}ms`,
   };
 
   return (

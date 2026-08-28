@@ -1,4 +1,6 @@
+import { useEffect } from 'react';
 import { Navigate, Route, Routes, useParams } from 'react-router-dom';
+import { API_BASE_URL } from './api/client';
 import { LandingPage } from './pages/LandingPage/LandingPage';
 import { RegisterPage } from './pages/RegisterPage/RegisterPage';
 import { CheckInPhonePage } from './pages/CheckInPhonePage/CheckInPhonePage';
@@ -27,6 +29,22 @@ function LegacyConfirmRedirect() {
  * shared state lives exactly as long as the volunteer is in the wizard.
  */
 export default function App() {
+  // Warm-up ping. Vercel Python cold-start (~1-2s) + Neon scale-to-zero
+  // cold-start (~0.3-1s) hit the first real request after idle time and
+  // add up to a 2-3s wait for whichever page action fires it. Landing on
+  // the app doesn't need the API, so a fire-and-forget health hit on
+  // mount lets the containers wake up while the volunteer reads the
+  // landing screen — by the time they type a phone number the round-trip
+  // is a normal ~200ms.
+  useEffect(() => {
+    fetch(`${API_BASE_URL.replace(/\/$/, '')}/health`, {
+      method: 'GET',
+      cache: 'no-store',
+    }).catch(() => {
+      /* best-effort; a failed warm-up doesn't break anything */
+    });
+  }, []);
+
   return (
     <Routes>
       <Route path="/" element={<LandingPage />} />
