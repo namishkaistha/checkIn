@@ -8,8 +8,13 @@ from __future__ import annotations
 
 import os
 
-from fastapi import FastAPI
+from dotenv import load_dotenv
+from fastapi import APIRouter, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+
+# Local dev: read backend/.env if present. In prod (Vercel), env vars come
+# from the platform and this is a no-op.
+load_dotenv()
 
 # Import models so SQLAlchemy registers them with Base.metadata before any
 # create_all() call runs (tests build the schema this way).
@@ -39,12 +44,20 @@ app.add_middleware(
     allow_headers=["Content-Type"],
 )
 
-# Routers are mounted explicitly rather than auto-discovered so it's obvious
-# from this file exactly which endpoints exist.
-app.include_router(users_routes.router)
-app.include_router(check_ins_router)
+# On Vercel we deploy behind `/api/*` (see repo-root vercel.json). Set
+# API_PREFIX=/api there so all routes get the prefix at inclusion time.
+# Local dev and tests leave it unset, so the routes stay at their bare
+# paths (/users, /check-ins) — no test churn.
+_api_prefix = os.environ.get("API_PREFIX", "")
+
+_api_router = APIRouter()
+_api_router.include_router(users_routes.router)
+_api_router.include_router(check_ins_router)
 
 
-@app.get("/health", tags=["health"])
+@_api_router.get("/health", tags=["health"])
 def health() -> dict[str, str]:
     return {"status": "ok"}
+
+
+app.include_router(_api_router, prefix=_api_prefix)

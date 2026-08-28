@@ -2,6 +2,7 @@ import os
 import sys
 from logging.config import fileConfig
 
+from dotenv import load_dotenv
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 
@@ -11,12 +12,21 @@ from alembic import context
 # from the backend/ directory.
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
+load_dotenv(os.path.join(os.path.dirname(__file__), "..", ".env"))
+
 from app.db import Base  # noqa: E402
 from app import models  # noqa: E402, F401  (register models with Base.metadata)
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
+
+# DATABASE_URL from env wins over the sqlalchemy.url in alembic.ini so the
+# same migrations run against Neon in prod and SQLite locally without editing
+# the ini file.
+_env_db_url = os.environ.get("DATABASE_URL")
+if _env_db_url:
+    config.set_main_option("sqlalchemy.url", _env_db_url)
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
